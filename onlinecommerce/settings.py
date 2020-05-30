@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
-# import env
+import env
 import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['django-final-onlinecommerce.herokuapp.com']
+ALLOWED_HOSTS = ['django-final-onlinecommerce.herokuapp.com','localhost']
 
 
 # Application definition
@@ -90,8 +90,22 @@ WSGI_APPLICATION = 'onlinecommerce.wsgi.application'
 #     }
 # }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'd8deolhtqob9h6',
+#         'USER': 'ygureepsunqkvf',
+#         'PASSWORD': '146a60f0bb09a8711e11b9f666dccd227e303429e25f91fde29c75df7b04d942',
+#         'HOST': 'ec2-54-217-204-34.eu-west-1.compute.amazonaws.com',
+#         'PORT': '5432',
+#     }
+# }
+
 if "DATABASE_URL" in os.environ:
-    DATABASES = {'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))}
+    DATABASES = {
+        'default':dj_database_url.parse(os.environ.get('DATABASE_URL'))
+    }
+
 else:
     print("Database URL not found. Using SQLite instead")
     DATABASES = {
@@ -100,6 +114,11 @@ else:
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
     }
+
+# DATABASES={}
+# DATABASES = dj_database_url.parse(os.environ.get('DATABASE_URL'), conn_max_age=600)
+# DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+# DATABASES['default'] = dj_database_url.config(default=os.environ.get('DATABASE_URL'))
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
